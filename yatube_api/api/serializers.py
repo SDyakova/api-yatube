@@ -14,16 +14,23 @@ class GroupSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     """Сериализатор для постов."""
 
+    author = serializers.SlugRelatedField(
+        read_only=True, slug_field="username"
+    )
+
     class Meta:
         model = Post
         fields = ("id", "text", "author", "image", "pub_date", "group")
-        read_only_fields = ("author",)
 
 
 class CommentSerializer(serializers.ModelSerializer):
     """Сериализатор для комментариев."""
 
+    author = serializers.SlugRelatedField(
+        read_only=True, slug_field="username"
+    )
+
     class Meta:
         model = Comment
         fields = ("id", "text", "author", "post", "created")
-        read_only_fields = ("author", "post")
+        read_only_fields = ("post",)
